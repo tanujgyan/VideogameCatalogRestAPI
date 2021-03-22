@@ -16,9 +16,25 @@ namespace VideogameCatalogRestAPI.Services.Implementation
         {
             this.videogameRepository = videogameRepository;
         }
+
+        public async Task<ActionResult<Videogame>> GetVideogame(int id)
+        {
+            return await videogameRepository.GetVideogame(id);
+        }
+
         public async Task<ActionResult<IEnumerable<Videogame>>> GetVideogames()
         {
             return await videogameRepository.GetVideogames();
+        }
+
+        public async Task<ActionResult<Videogame>> PostVideogame(Videogame videogame)
+        {
+            return await videogameRepository.PostVideogame(videogame);
+        }
+
+        public async Task<IActionResult> PutVideogame(int id, Videogame videogame)
+        {
+            return await videogameRepository.PutVideogame(id, videogame);
         }
     }
 }

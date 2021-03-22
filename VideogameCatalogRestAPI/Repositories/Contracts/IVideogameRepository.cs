@@ -10,5 +10,8 @@ namespace VideogameCatalogRestAPI.Repositories.Contracts
     public interface IVideogameRepository
     {
         Task<ActionResult<IEnumerable<Videogame>>> GetVideogames();
+        Task<ActionResult<Videogame>> GetVideogame(int id);
+        Task<IActionResult> PutVideogame(int id, Videogame videogame);
+        Task<ActionResult<Videogame>> PostVideogame(Videogame videogame);
     }
 }
