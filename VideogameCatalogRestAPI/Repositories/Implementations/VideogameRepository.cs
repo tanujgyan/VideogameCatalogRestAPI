@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VideogameCatalogRestAPI.Controllers;
 using VideogameCatalogRestAPI.DBContext;
 using VideogameCatalogRestAPI.Entities;
 using VideogameCatalogRestAPI.Repositories.Contracts;
@@ -72,7 +73,7 @@ namespace VideogameCatalogRestAPI.Repositories.Implementations
                 _context.Videogames.Add(videogame);
                 await _context.SaveChangesAsync();
 
-                return new CreatedAtActionResult("GetVideogame", "GetVideogame", new { id = videogame.VideogameId }, videogame);
+                return videogame;
             }
             catch 
             { 
