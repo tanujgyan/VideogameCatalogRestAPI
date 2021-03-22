@@ -1,5 +1,5 @@
 # VideogameCatalogRestAPI
-- Developed using .NET Core 5 
+- Developed using .NET 5 
 - Serilog used for logging 
 - Unit Testing using xUnit and Moq 
 - Code Architecture: 
