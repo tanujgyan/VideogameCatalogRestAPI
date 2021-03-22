@@ -33,7 +33,7 @@ namespace VideoGameUnitTest
             Platform = "PC"
         };
         [Fact]
-        public async Task GetVideoGame_WithNotExistingVideogame_ReturnNotFound()
+        public async Task GetVideoGame_BasedOnId_WithNotExistingVideogame_ReturnNotFound()
         {
             //Arrange
             //use the mock to set up the test. we are basically telling here that whatever int id we pass to this method 
@@ -46,7 +46,7 @@ namespace VideoGameUnitTest
             Assert.IsType<NotFoundResult>(actionResult.Result);
         }
         [Fact]
-        public async Task GetVideoGame_WithExistingVideogame_ReturnVideogame()
+        public async Task GetVideoGame_BasedOnId_WithExistingVideogame_ReturnVideogame()
         {
             //Arrange
             //use the mock to set up the test. we are basically telling here that whatever int id we pass to this method 
@@ -62,7 +62,7 @@ namespace VideoGameUnitTest
                 options => options.ComparingByMembers<Videogame>());
         }
         [Fact]
-        public async Task PostVideoGame_WithExistingVideogame_ReturnNewlyCreatedVideogame()
+        public async Task PostVideoGame_WithNewVideogame_ReturnNewlyCreatedVideogame()
         {
             //Arrange
             videoGameStub.Setup(service => service.PostVideogame(It.IsAny<Videogame>())).ReturnsAsync(sampleVideogame);
@@ -75,7 +75,7 @@ namespace VideoGameUnitTest
                 options => options.ComparingByMembers<Videogame>());
         }
         [Fact]
-        public async Task PostVideoGame_ReturnsExecption()
+        public async Task PostVideoGame_WithException_ReturnsInternalServerError()
         {
             //Arrange
             videoGameStub.Setup(service => service.PostVideogame(It.IsAny<Videogame>())).Throws(new Exception());
@@ -86,7 +86,7 @@ namespace VideoGameUnitTest
             Assert.Equal("500",((StatusCodeResult)actionResult.Result).StatusCode.ToString());
         }
         [Fact]
-        public async Task PutVideoGame_ReturnsConcurrencyExecption()
+        public async Task PutVideoGame_WithException_ReturnsConcurrencyExecption()
         {
             //Arrange
             videoGameStub.Setup(service => service.PutVideogame(It.IsAny<int>(),It.IsAny<Videogame>())).Throws(new DbUpdateConcurrencyException());
@@ -98,7 +98,7 @@ namespace VideoGameUnitTest
             
         }
         [Fact]
-        public async Task PutVideoGame_ReturnsExecption()
+        public async Task PutVideoGame_WithException_ReturnsExecption()
         {
             //Arrange
             videoGameStub.Setup(service => service.PutVideogame(It.IsAny<int>(), It.IsAny<Videogame>())).Throws(new Exception());
@@ -109,7 +109,7 @@ namespace VideoGameUnitTest
             Assert.Equal("500", ((StatusCodeResult)actionResult).StatusCode.ToString());
         }
         [Fact]
-        public async Task PutVideoGame_WithExistingVideogame_ReturnUpdatedVideogame()
+        public async Task PutVideoGame_WithExistingVideogame_BasedOnId_ReturnUpdatedVideogame()
         {
             //Arrange
             videoGameStub.Setup(service => service.PutVideogame(It.IsAny<int>(), It.IsAny<Videogame>())).ReturnsAsync(new NoContentResult());

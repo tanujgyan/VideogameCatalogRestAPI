@@ -44,12 +44,6 @@ namespace VideogameCatalogRestAPI.Controllers
             try
             {
                 var videogame = await videogameService.GetVideogame(id);
-
-                if (videogame.Value == null)
-                {
-                    return NotFound();
-                }
-
                 return videogame.Value;
             }
             catch(Exception ex)
