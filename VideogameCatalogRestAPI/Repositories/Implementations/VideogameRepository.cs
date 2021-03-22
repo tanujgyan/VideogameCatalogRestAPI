@@ -17,7 +17,14 @@ namespace VideogameCatalogRestAPI.Repositories.Implementations
         {
             _context = context;
         }
-
+        /// <summary>
+        /// Query the DB to get a video game by id
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// Returns NotFoundResult if no video game is found
+        /// </returns>
         public async Task<ActionResult<Videogame>> GetVideogame(int id)
         {
             try
@@ -26,7 +33,7 @@ namespace VideogameCatalogRestAPI.Repositories.Implementations
 
                 if (videogame == null)
                 {
-                    return null;
+                    return new NotFoundResult();
                 }
 
                 return videogame;
@@ -36,7 +43,10 @@ namespace VideogameCatalogRestAPI.Repositories.Implementations
                 throw;
             }
         }
-
+        /// <summary>
+        /// Gets list of all video games in DB
+        /// </summary>
+        /// <returns></returns>
         public async Task<ActionResult<IEnumerable<Videogame>>> GetVideogames()
         {
             try
@@ -48,7 +58,13 @@ namespace VideogameCatalogRestAPI.Repositories.Implementations
                 throw;
             }
         }
-
+        /// <summary>
+        /// Add a new video game to DB
+        /// </summary>
+        /// <param name="videogame"></param>
+        /// <returns>
+        /// Newly created videogame
+        /// </returns>
         public async Task<ActionResult<Videogame>> PostVideogame(Videogame videogame)
         {
             try
@@ -63,7 +79,16 @@ namespace VideogameCatalogRestAPI.Repositories.Implementations
                 throw;
             }
         }
-
+        /// <summary>
+        /// Update an existing video game in DB
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="videogame"></param>
+        /// <returns>
+        /// Returns NoContentResult on success
+        /// Returns Bad Request if id to be updated does not match the id of videogame object
+        /// 
+        /// </returns>
         public async Task<IActionResult> PutVideogame(int id, Videogame videogame)
         {
            
@@ -96,6 +121,14 @@ namespace VideogameCatalogRestAPI.Repositories.Implementations
 
             return new NoContentResult();
         }
+        /// <summary>
+        /// Checks if videogame exists by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// true if found
+        /// false if not found
+        /// </returns>
         private bool VideogameExists(int id)
         {
             return _context.Videogames.Any(e => e.VideogameId == id);
