@@ -44,7 +44,7 @@ namespace VideogameCatalogRestAPI.Controllers
             try
             {
                 var videogame = await videogameService.GetVideogame(id);
-                return videogame.Value;
+                return videogame;
             }
             catch(Exception ex)
             {
@@ -78,8 +78,10 @@ namespace VideogameCatalogRestAPI.Controllers
             try
             {
                 var result = await videogameService.PostVideogame(videogame);
-                return result;
+                //return result;
+                return CreatedAtAction("GetVideogame", new { id = result.Value.VideogameId}, videogame);
             }
+
             catch (Exception ex)
             {
                 Serilog.Log.Error(ex, "api/Videogames-> Error in PostVideogame controller");

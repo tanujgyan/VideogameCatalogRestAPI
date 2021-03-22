@@ -39,7 +39,7 @@ namespace VideoGameUnitTest
             //use the mock to set up the test. we are basically telling here that whatever int id we pass to this method 
             //it will always return null
             videogameController = new VideogameController(videoGameStub.Object);
-            videoGameStub.Setup(service => service.GetVideogame(It.IsAny<int>())).ReturnsAsync((Videogame)null);
+            videoGameStub.Setup(service => service.GetVideogame(It.IsAny<int>())).ReturnsAsync(new NotFoundResult());
             //Act
             var actionResult = await videogameController.GetVideogame(1);
             //Assert
@@ -66,13 +66,13 @@ namespace VideoGameUnitTest
         {
             //Arrange
             videoGameStub.Setup(service => service.PostVideogame(It.IsAny<Videogame>())).ReturnsAsync(sampleVideogame);
+
             videogameController = new VideogameController(videoGameStub.Object);
             //Act
             var actionResult = await videogameController.PostVideogame(toBePostedVideogame);
             //Assert
-            var postedVideogame = actionResult.Value;
-            sampleVideogame.Should().BeEquivalentTo(postedVideogame,
-                options => options.ComparingByMembers<Videogame>());
+            Assert.Equal("201", ((CreatedAtActionResult)actionResult.Result).StatusCode.ToString());
+
         }
         [Fact]
         public async Task PostVideoGame_WithException_ReturnsInternalServerError()
