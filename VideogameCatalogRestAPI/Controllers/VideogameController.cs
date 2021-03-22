@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace VideogameCatalogRestAPI.Controllers
         private readonly IVideogameService videogameService;
         public VideogameController(IVideogameService videogameService)
         {
+
             this.videogameService = videogameService;
         }
         [HttpGet]
@@ -34,5 +36,64 @@ namespace VideogameCatalogRestAPI.Controllers
             }
 
         }
+
+        // GET: api/Videogames/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Videogame>> GetVideogame(int id)
+        {
+            try
+            {
+                var videogame = await videogameService.GetVideogame(id);
+
+                if (videogame.Value == null)
+                {
+                    return NotFound();
+                }
+
+                return videogame.Value;
+            }
+            catch(Exception ex)
+            {
+                Serilog.Log.Error(ex, "api/Videogames-> Error in PostVideogame controller");
+                return StatusCode(500);
+            }
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutVideogame(int id, Videogame videogame)
+        {
+            try
+            {
+                var result = await videogameService.PutVideogame(id, videogame);
+                
+                return result;
+            }
+            catch(DbUpdateConcurrencyException dbex)
+            {
+                Serilog.Log.Error(dbex, "api/Videogames-> Concurrency exception in PutVideogame controller");
+                return StatusCode(409);
+            }
+            catch(Exception ex)
+            {
+                Serilog.Log.Error(ex, "api/Videogames-> Error in PutVideogame controller");
+                return StatusCode(500);
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult<Videogame>> PostVideogame(Videogame videogame)
+        {
+            try
+            {
+                var result = await videogameService.PostVideogame(videogame);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Serilog.Log.Error(ex, "api/Videogames-> Error in PostVideogame controller");
+                return StatusCode(500);
+            }
+        }
     }
+
+
 }
+

@@ -9,6 +9,10 @@ namespace VideogameCatalogRestAPI.Entities
 {
     public class Videogame
     {
+        public Videogame()
+        {
+
+        }
         [Key]
         public int VideogameId { get; set; }
         [Column(TypeName = "nvarchar(100)")]
